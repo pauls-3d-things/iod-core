@@ -9,6 +9,7 @@ See work in progress below:
 ![Login](images/login.png)
 ![Status](images/status.png)
 ![Config](images/config.png)
+![Help](images/help.png)
 ![Responsive](images/responsive.png)
 
 ## TODO
