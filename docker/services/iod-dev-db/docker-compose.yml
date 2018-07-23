@@ -1,0 +1,8 @@
+postgres:
+  image: iod/db:latest
+  ports:
+    - "5432:5432"
+  environment:
+    - DEBUG=false
+  volumes:
+    - ./data:/var/lib/postgresql/data

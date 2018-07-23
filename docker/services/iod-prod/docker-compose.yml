@@ -1,0 +1,29 @@
+https:
+  restart: always
+  image: uvwxy/nodejs-ssl-proxy
+  environment:
+    - SSL_PROXY_TARGET=http://corehost:8080
+    - SSL_PROXY_PORT=443
+  ports:
+    - 443:443
+  links:
+    - core:corehost
+  volumes:
+    - ./secrets:/opt/nodejs-ssl-proxy/secrets/
+core:
+  restart: always
+  image: iod/core:latest
+  environment:
+    - HTTP_PORT=8080
+    - HTTP_IP=0.0.0.0
+  links:
+    - db:dbhost
+  volumes:
+    - ./config:/opt/iod-core/config/
+db:
+  restart: always
+  image: iod/db:latest
+  environment:
+    - DEBUG=false
+  volumes:
+    - ./data:/var/lib/postgresql/data

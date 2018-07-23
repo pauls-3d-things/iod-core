@@ -1,0 +1,24 @@
+{
+   "type": "postgres",
+   "host": "dbhost",
+   "port": 5432,
+   "username": "iod",
+   "password": "iod",
+   "database": "iod",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "lib/entity/**/*.js"
+   ],
+   "migrations": [
+      "lib/migration/**/*.js"
+   ],
+   "subscribers": [
+      "lib/subscriber/**/*.js"
+   ],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

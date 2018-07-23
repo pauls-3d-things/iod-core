@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/
+lib/
+package-lock.json
+resources/docker-services/iod-database/data/
+resources/docker-services/iod-core/data/
+resources/docker-services/iod-core/iod-core-*.tgz
+iod-core-*.tgz
+dist/
