@@ -106,3 +106,29 @@ bash setup_secrets.sh # dont use in production :P
 cd docker/services/iod-prod
 docker-compose up -d
 ```
+
+## Writing IoD Nodes
+
+Clients need to follow the protocol to be added into the monitoring system, and send monitoring data:
+
+0) Boot/Wakeup
+1) Check if node has a UUID
+    * **no:** create a UUID and store it locally, *go to 2.*
+    * **yes:** *go to 2.*
+2) Check if there is a config on iod-core: `GET /api/node/$UUID/config`
+    * **no:** *go to 3.*
+    * **yes:** *go to 4.*
+3) Create a new config `POST /api/node/$UUID/config`
+    * **success:** *go to 2.* (will get default config, configure the node in the meantime via the frontend)
+    * **error:** sleep a while, log an error, etc., *go to 3*.
+4) Check if node has local config
+    * **no:** store new config, *go to 5.*
+    * **yes:** check if configs are the same
+        * **no:** store updated config, *go to 5.*
+        * **yes:** do nothing, *go to 5.*
+5) Read config and read configured sensor data
+6) Check if node has obtained number of measurements to collect
+    * **no**: store measurement in buffer, send node to sleep
+    * **yes**: send data to iod-core, send node to sleep
+
+Details on this protocol can be taken from `src/test/01-NodeConfigController.spec` and `srtc/test/02-NodeValuesController.spec`.
