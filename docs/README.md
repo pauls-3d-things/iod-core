@@ -8,7 +8,6 @@ See work in progress below:
 
 ![Login](images/login.png)
 ![Status](images/status.png)
-![Config](images/config.png)
 ![Help](images/help.png)
 ![Responsive](images/responsive.png)
 
@@ -115,20 +114,44 @@ Clients need to follow the protocol to be added into the monitoring system, and 
 1) Check if node has a UUID
     * **no:** create a UUID and store it locally, *go to 2.*
     * **yes:** *go to 2.*
-2) Check if there is a config on iod-core: `GET /api/node/$UUID/config`
-    * **no:** *go to 3.*
-    * **yes:** *go to 4.*
-3) Create a new config `POST /api/node/$UUID/config`
-    * **success:** *go to 2.* (will get default config, configure the node in the meantime via the frontend)
-    * **error:** sleep a while, log an error, etc., *go to 3*.
-4) Check if node has local config
-    * **no:** store new config, *go to 5.*
-    * **yes:** check if configs are the same
-        * **no:** store updated config, *go to 5.*
-        * **yes:** do nothing, *go to 5.*
-5) Read config and read configured sensor data
-6) Check if node has obtained number of measurements to collect
-    * **no**: store measurement in buffer, send node to sleep
-    * **yes**: send data to iod-core, send node to sleep
+2) Check if there is a local config:
+    * **no:** Create/Request a default config form iod-codre: `POST /api/node/$UUID/config`
+        * **success:** send node to configured sleep
+        * **error:** send node to sleep for 3 minutes
+    * **yes:** Read local config
+        * **activeFeatures:** behave according to features
+        * **activeSensors:** for each sensor, measure its value
+        * **numberOfSamples** check if this is reached
+            * **no:** cache values and sleep for **sleepTimeMillis**
+            * **yes:** send  data
+                * **ipv4address:** if this is not "AUTO" use specified address
+                * request new config, if it has changed (ignoring timestamps), store it.
+                * sleep for **sleepTimeMillis**
 
-Details on this protocol can be taken from `src/test/01-NodeConfigController.spec` and `srtc/test/02-NodeValuesController.spec`.
+Details on this protocol's API can be taken from `src/test/01-NodeConfigController.spec` and `srtc/test/02-NodeValuesController.spec`.
+
+#### Example config response
+```json
+{
+    "id": "a5964d44-8845-48dd-8d91-5028f8dca66e",
+    "dataId": 2,
+    "name": "Node_2", // our name
+    "lastSeen": 1517141593943, // unix timestamp
+    "firstSeen": 1517141592428, // unix timestamp
+    "numberOfSamples": 1,
+    "sleepTimeMillis": 180000, // 1000*60*3 = 3 minutes
+    "activeSensors": [ // list of sensor IDs
+        "BME280_TEMP",
+        "BME280_HYGRO",
+        "BME280_BARO",
+        "BME280_DEW"
+    ],
+    "activeFeatures": [ // list of features to enable
+        "I2C_DEVICE_ON_D3"
+    ],
+    "ipv4address": "192.168.178.200" // could be "AUTO"
+}
+```
+Which responds to
+![Config](images/config.png)
+Note, the frontend as well as the clients share the same REST endpoints. This makes it easier to develop.

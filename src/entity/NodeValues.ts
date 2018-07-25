@@ -5,7 +5,6 @@ export class NodeValues {
 
     @PrimaryColumn({ type: "integer" })
     @Index()
-
     dataId: number;
 
     @PrimaryColumn({ type: "bigint" })
