@@ -1,21 +1,32 @@
-https:
+#https:
+#  restart: always
+#  image: uvwxy/nodejs-ssl-proxy
+#  environment:
+#    - SSL_PROXY_TARGET=http://corehost:8080
+#    - SSL_PROXY_PORT=443
+#  ports:
+#    - 443:443
+#  links:
+#    - core:corehost
+#  volumes:
+#    - ./secrets:/opt/nodejs-ssl-proxy/secrets/
+grafana:
   restart: always
-  image: uvwxy/nodejs-ssl-proxy
-  environment:
-    - SSL_PROXY_TARGET=http://corehost:8080
-    - SSL_PROXY_PORT=443
+  image: grafana/grafana
   ports:
-    - 443:443
+    - 3000:3000
   links:
-    - core:corehost
+    - db:dbhost
   volumes:
-    - ./secrets:/opt/nodejs-ssl-proxy/secrets/
+    - ./grafana-data:/var/lib/grafana
 core:
   restart: always
   image: iod/core:latest
   environment:
     - HTTP_PORT=8080
     - HTTP_IP=0.0.0.0
+  ports:
+    - 8080:8080
   links:
     - db:dbhost
   volumes:
@@ -26,4 +37,4 @@ db:
   environment:
     - DEBUG=false
   volumes:
-    - ./data:/var/lib/postgresql/data
+    - ./postgres-data:/var/lib/postgresql/data

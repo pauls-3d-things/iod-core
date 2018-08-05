@@ -25,7 +25,7 @@ describe("IOD Core API Values", function () {
     it("should store " + numTests + " separate values", function (done) {
         const values: Partial<NodeValues> = {
             dataId: 1,
-            values: ["1", "2"]
+            values: { BME280_TEMP: "1", BME280_HUM: "2" }
         };
 
         const results: NodeConfig[] = [];
@@ -52,7 +52,7 @@ describe("IOD Core API Values", function () {
     it("should store " + numTests + " batch values", function (done) {
         const now = Date.now();
         const valuesList = xrange(numTests)
-            .map((i: number) => ({ dataId: 1, timestamp: now + i, values: ["" + i, "" + (i * i)] }));
+            .map((i: number) => ({ dataId: 1, timestamp: now + i, values: { BME280_TEMP: "" + i, BME280_HUM: "" + (i * i) } }));
 
         fetch(api("/api/node/" + nodeUUID + "/values/batch"), { ...defaultRequest("POST"), body: JSON.stringify(valuesList) })
             .then(resp2json)

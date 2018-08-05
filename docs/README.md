@@ -4,16 +4,20 @@ The goal of this project is to have a general purpose sensor data server. Often 
 
 The data is then visualized with [grafana](https://grafana.com), because they already figured out how to write an awesome UI to display data.
 
-See work in progress below:
+Click on the screenshots to see work in progress:
 
-![Login](images/login.png)
-![Status](images/status.png)
-![Help](images/help.png)
-![Responsive](images/responsive.png)
+<a href="images/login.png"><img src="images/login.png" width="200px" /></a>
+<a href="images/status.png"><img src="images/status.png" width="200px" /></a>
+<a href="images/help.png"><img src="images/help.png" width="200px" /></a>
+<a href="images/responsive.png"><img src="images/responsive.png" width="200px" /></a>
+<a href="images/grafana_temperature.png"><img src="images/grafana_temperature.png" width="200px" /></a>
+
+## What works?
+- Rollout and configuration of sensor nodes
+- Storing data
+- There is a simple implementation for esp8266 that supports the BME280
 
 ## TODO
-- Write the client
-- Configure Grafana
 - Precompile RaspberryPi docker images
 - More documentation
 
@@ -56,7 +60,7 @@ docker-compose up -d
 #### 3) build the frontend
 ```bash
 npm install
-npm run build # this will temporarily start a dev backend and and insert devices into the DB
+npm run build # this will temporarily start a dev backend for testing and insert devices into the DB
 ```
 
 #### 4) start the server
@@ -84,6 +88,18 @@ Make changes and keep the typescript compiler running in the background:
 ./node_modules/.bin/tsc -w
 ```
 
+#### 6) what's in the database?
+Run
+```
+startPgadmin4.sh
+```
+Open [http://localhost:5050](http://localhost:5050)
+
+Add a new config:
+
+Server: `postgres`
+Login: `iod:iod`
+
 ## Production quick start (a.k.a "I want to run it somewhere permanently")
 
 #### 1) build the images
@@ -97,7 +113,8 @@ make
 #### 2) setup secrets
 ```bash
 cd docker/services/iod-prod
-bash setup_secrets.sh # dont use in production :P
+# below is disabled for now, create a ticket if you need ssl support
+# bash setup_secrets.sh # dont use in production :P
 ```
 
 #### 3) start the prod db + server
@@ -153,5 +170,46 @@ Details on this protocol's API can be taken from `src/test/01-NodeConfigControll
 }
 ```
 Which responds to
-![Config](images/config.png)
+
+<img src="images/config.png" width="600px" />
+
 Note, the frontend as well as the clients share the same REST endpoints. This makes it easier to develop.
+
+
+## Configuring Grafana
+
+### Datasource
+
+Manually add the postgres database:
+
+<img src="images/postgres_datasource.png" width="600px" />
+
+*Note:* the `dbhost` is the link defined in the `docker-compose.yml`.
+
+️**⚠️Important:️️⚠️** This example uses the `iod` database user designed for the backend which has **write access**. The goal is to use the `grafanareader` user. Unfortunately the postgres setup is not 100% correct...  Help 🙏 pls. (see the file `00-add-iod-user.sql` the default permissions seem not work)
+
+```sql
+SELECT
+  to_timestamp(timestamp/1000) as time,
+  (values->>'BME280_TEMP')::float as value
+FROM
+  node_values
+WHERE
+  "dataId" = 1
+  ```
+
+The (incomplete) list of currently defined values is:
+
+- BME280_TEMP
+- BME280_HYGRO 
+- BME280_BARO
+- BME280_ALTI
+- BME280_DEW
+- MAX17043 
+- APDS9660COLOR
+- APDS9660GESTURE
+- APDS9660DISTANCE
+- HEARTBEAT
+- DECIBEL
+
+This might change in the future (see `Listable.tsx`).

@@ -1,2 +1,4 @@
 data/
 secrets/
+grafana-data/
+postgres-data/

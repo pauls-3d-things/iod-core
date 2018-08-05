@@ -11,8 +11,8 @@ export class NodeValues {
     @Index()
     timestamp: number | string;
 
-    @Column({ type: String, isArray: true })
-    values: string[];
+    @Column({ type: "jsonb", nullable: true })
+    values: { [index: string]: string };
 
     @BeforeInsert()
     @BeforeUpdate()
@@ -26,11 +26,11 @@ export class NodeValues {
     @AfterLoad()
     typeFromString() {
         // map string (postgres) to number (js)
-        this.timestamp = Number.parseInt(this.timestamp as any);
+        this.timestamp = Number.parseInt(this.timestamp as any, 10);
     }
 }
 
-export class NodeValuesDTO {
+export interface NodeValuesDTO {
     timestamp?: number | string;
-    values: string[];
+    values: { [index: string]: string };
 }

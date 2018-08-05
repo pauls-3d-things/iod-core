@@ -75,7 +75,7 @@ export class ConfigEdit extends React.Component<ConfigEditProps, ConfigEditState
     getIntOrDefault = (event: React.FormEvent<HTMLInputElement>, defaultValue: number) => {
         let samples;
         try {
-            samples = Number.parseInt(event.currentTarget.value);
+            samples = Number.parseInt(event.currentTarget.value, 10);
         } catch (error) {
             samples = defaultValue;
         }

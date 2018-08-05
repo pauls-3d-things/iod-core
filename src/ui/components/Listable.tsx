@@ -42,7 +42,7 @@ export const renderListable = (
 ) => {
     return listables.map((l: Listable) => [
         <Checkbox key={"cb" + l.id} checked={isSelected(l.id)} onClick={() => onClickItem(l.id)} >
-            <Icon icon={l.icon} /><span style={{ "font-size": "0.75rem" }}> {l.descr}</span>
+            <Icon icon={l.icon} /><span style={{ fontSize: "0.75rem" }}> {l.descr}</span>
         </Checkbox>,
         <br key={"br" + l.id} />
     ]);
@@ -61,7 +61,7 @@ export const renderCustomListable = (
 
     return customListables.map((l: string) => [
         <Checkbox key={"cb" + l} checked={true} onClick={() => toggleListable(l)} >
-            <Icon icon="cog" /><span style={{ "font-size": "0.75rem", "font-style": "italic" }}> {l}</span>
+            <Icon icon="cog" /><span style={{ fontSize: "0.75rem", fontStyle: "italic" }}> {l}</span>
         </Checkbox>,
         <br key={"br" + l} />
     ]);
@@ -76,9 +76,9 @@ export const Features: ListableMap = {
         id: "STATUS_LIGHT", icon: "lightbulb-o",
         descr: "Enable status light as indicator"
     },
-    I2C_DEVICE_ON_D3: {
-        id: "I2C_DEVICE_ON_D3", icon: "plug",
-        descr: "I2C device(s) powered with 3V3 via D3"
+    I2C_DEVICE_ON_IO13: {
+        id: "I2C_DEVICE_ON_IO13", icon: "plug",
+        descr: "I2C device(s) powered with 3V3 via IO13"
     }
 };
 

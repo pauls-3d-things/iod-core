@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "clean": "rimraf lib dist",
-        "test": "mocha lib/test/common/test-setup.js --timeout 5000 lib/**/*.spec.js",
+        "test": "mocha lib/test/common/test-setup.js --timeout 10000 lib/**/*.spec.js",
         "tslint": "tslint --project .",
         "compile": "tsc",
         "webpack": "webpack",
@@ -38,9 +38,9 @@
         "serve-static": "^1.13.1",
         "server-destroy": "^1.0.1",
         "typedi": "^0.6.0",
-        "typeorm": "0.1.7",
-        "typeorm-routing-controllers-extensions": "^0.1.0",
-        "typeorm-typedi-extensions": "^0.1.1",
+        "typeorm": "0.2.6",
+        "typeorm-routing-controllers-extensions": "^0.2.0",
+        "typeorm-typedi-extensions": "^0.2.1",
         "uuid": "^3.1.0",
         "xrange": "^1.0.1"
     },

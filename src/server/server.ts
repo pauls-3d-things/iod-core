@@ -24,7 +24,7 @@ export const startServer = (
     serverConfig.use("/", createBasicAuth(JSON.parse(fs.readFileSync(path.join(__dirname, "../../config/basic-auth.json"), "utf8")) as BasicAuthConfig));
     serverConfig.use("/", express.static("dist/"));
 
-    const HTTP_PORT: number = port || Number.parseInt(process.env.HTTP_PORT || "8080");
+    const HTTP_PORT: number = port || Number.parseInt(process.env.HTTP_PORT || "8080", 10);
     const HTTP_HOST = host || process.env.HTTP_IP || "0.0.0.0";
 
     logger("Starting...");

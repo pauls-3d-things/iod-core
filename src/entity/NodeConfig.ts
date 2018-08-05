@@ -25,10 +25,10 @@ export class NodeConfig {
     @Column({ type: "bigint", default: 3 * 60 * 1000 /* 3 mins */ })
     sleepTimeMillis: number | string;
 
-    @Column({ type: String, isArray: true })
+    @Column("varchar", { array: true, nullable: true })
     activeSensors: string[];
 
-    @Column({ type: String, isArray: true })
+    @Column("varchar", { array: true, nullable: true })
     activeFeatures: string[];
 
     @Column({ default: "AUTO" })
@@ -48,8 +48,8 @@ export class NodeConfig {
     @AfterLoad()
     typeFromString() {
         // map string (postgres) to number (js)
-        this.lastSeen = Number.parseInt(this.lastSeen as any);
-        this.firstSeen = Number.parseInt(this.firstSeen as any);
-        this.sleepTimeMillis = Number.parseInt(this.sleepTimeMillis as any);
+        this.lastSeen = Number.parseInt(this.lastSeen as any, 10);
+        this.firstSeen = Number.parseInt(this.firstSeen as any, 10);
+        this.sleepTimeMillis = Number.parseInt(this.sleepTimeMillis as any, 10);
     }
 }
