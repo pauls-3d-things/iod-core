@@ -1,6 +1,6 @@
 {
    "type": "postgres",
-   "host": "mrbook-lan",
+   "host": "localhost",
    "port": 15432,
    "username": "iod",
    "password": "iod",
