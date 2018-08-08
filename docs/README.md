@@ -120,7 +120,16 @@ cd docker/services/iod-prod
 #### 3) start the prod db + server
 ```bash
 cd docker/services/iod-prod
+mkdir grafana-data
+sudo chown 472 grafana-data # workaround for "You may have issues with file permissions, more information here: http://docs.grafana.org/installation/docker/#migration-from-a-previous-version-of-the-docker-container-to-5-1-or-later"
 docker-compose up -d
+```
+
+On rasprberry pi add the following `docker-compose.override.yml` or wait for [official support](https://grafana.com/grafana/download/5.2.0-beta1?platform=arm).
+
+```yml
+grafana:
+  image: fg2it/grafana-armhf:v5.1.4
 ```
 
 ## Writing IoD Nodes
