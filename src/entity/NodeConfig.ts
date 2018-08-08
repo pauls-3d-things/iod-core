@@ -4,35 +4,35 @@ import { Entity, PrimaryColumn, Column, BeforeInsert, BeforeUpdate, AfterUpdate,
 export class NodeConfig {
 
     @PrimaryColumn({ type: "uuid" })
-    id: string;
+    id!: string;
 
     @Column({ type: "integer" })
     @Index()
-    dataId: number;
+    dataId!: number;
 
     @Column()
-    name: string;
+    name!: string;
 
     @Column({ type: "bigint" })
-    lastSeen: number | string;
+    lastSeen!: number | string;
 
     @Column({ type: "bigint" })
-    firstSeen: number | string;
+    firstSeen!: number | string;
 
     @Column({ type: "integer", default: 1 })
-    numberOfSamples: number;
+    numberOfSamples!: number;
 
     @Column({ type: "bigint", default: 3 * 60 * 1000 /* 3 mins */ })
-    sleepTimeMillis: number | string;
+    sleepTimeMillis!: number | string;
 
     @Column("varchar", { array: true, nullable: true })
-    activeSensors: string[];
+    activeSensors!: string[];
 
     @Column("varchar", { array: true, nullable: true })
-    activeFeatures: string[];
+    activeFeatures!: string[];
 
     @Column({ default: "AUTO" })
-    ipv4address: string;
+    ipv4address!: string;
 
     @BeforeInsert()
     @BeforeUpdate()

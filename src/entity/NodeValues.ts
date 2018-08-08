@@ -5,14 +5,14 @@ export class NodeValues {
 
     @PrimaryColumn({ type: "integer" })
     @Index()
-    dataId: number;
+    dataId!: number;
 
     @PrimaryColumn({ type: "bigint" })
     @Index()
-    timestamp: number | string;
+    timestamp!: number | string;
 
     @Column({ type: "jsonb", nullable: true })
-    values: { [index: string]: string };
+    values!: { [index: string]: string };
 
     @BeforeInsert()
     @BeforeUpdate()

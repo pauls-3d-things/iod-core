@@ -20,7 +20,7 @@ module.exports = {
     plugins: [
     ],
     module: {
-        loaders: [
+        rules: [
             { test: /\.css$/, loader: "style!css" }
         ]
     }

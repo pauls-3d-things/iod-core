@@ -8,14 +8,15 @@
         "test": "mocha lib/test/common/test-setup.js --timeout 10000 lib/**/*.spec.js",
         "tslint": "tslint --project .",
         "compile": "tsc",
-        "webpack": "webpack",
+        "webpack-prod": "webpack --mode=\"production\"",
+        "webpack": "webpack --mode=\"development\"",
         "html": "cpr src/ui/index.html dist/ -o ",
         "css:bulma": "cpr node_modules/bulma/css/bulma.css dist/ -o ",
         "css:fa": "cpr node_modules/font-awesome/css/*font-awesome.min.css dist/css/ -o ",
         "font": "cpr node_modules/font-awesome/fonts dist/fonts/ -o ",
         "css": "npm-run-all css:*",
         "assets": "npm-run-all css font html",
-        "build-for-image": "npm-run-all clean compile assets webpack",
+        "build-for-image": "npm-run-all clean compile assets webpack-prod",
         "build": "npm-run-all clean tslint compile assets webpack test",
         "dev": "nodemon lib/server/index.js",
         "start": "node lib/server/index.js"
@@ -78,6 +79,7 @@
         "tslint-config-standard": "^7.0.0",
         "typescript": "3.0.1",
         "webpack": "^4.16.5",
+        "webpack-cli": "^3.1.0",
         "webpack-dev-server": "^3.1.5",
         "whatwg-fetch": "^2.0.3"
     }
